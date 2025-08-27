@@ -1,7 +1,8 @@
 import {Component, inject, signal} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {Store} from '@ngrx/store';
-import {increment} from '../store/counter.action';
+import {decrement, increment} from '../store/counter.action';
+import {counterFeature} from '../store/counter.reducer';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,8 @@ import {increment} from '../store/counter.action';
     <h1>Welcome to {{ title() }}!</h1>
 
     <h1>counter: {{counter()}}</h1>
-    <button (click)="inc()">+</button>
+    <button (click)="inc()">+</button> <br/>
+    <button (click)="dec()">-</button>
 
     <router-outlet />
   `,
@@ -20,9 +22,13 @@ export class App {
   protected readonly title = signal('ngrx-demo');
 
   store = inject(Store);
-  counter = this.store.selectSignal(state => state.counter.value)
+  counter = this.store.selectSignal(counterFeature.selectValue)
 
   inc() {
     this.store.dispatch(increment());
+  }
+
+  dec() {
+    this.store.dispatch(decrement());
   }
 }

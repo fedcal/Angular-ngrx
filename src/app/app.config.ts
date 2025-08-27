@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideStore, provideState } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import {counterReducer} from '../store/counter.reducer';
+import {counterFeature} from '../store/counter.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,10 +15,7 @@ export const appConfig: ApplicationConfig = {
       name: 'home',
       reducer: () => [1,2,3]
     }),
-    provideState({
-      name: 'counter',
-      reducer: counterReducer
-    }),
+    provideState(counterFeature),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })
   ]
 };
